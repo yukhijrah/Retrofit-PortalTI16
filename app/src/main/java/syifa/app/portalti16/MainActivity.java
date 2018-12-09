@@ -44,11 +44,10 @@ public class MainActivity extends AppCompatActivity {
                     DaftarMahasiswa mahasiswas = response.body();
 
                     //get title
-                    Log.d("Syifa Tazfa", mahasiswas.getTitle());
+                    Log.d("SyifaTazfa", mahasiswas.getTitle());
 
-                    // tampilkan daftar mahasiswa di recyclerview
+                    //tampilkan daftar mahasiswa di recyclerview
                     MahasiswaAdapter adapter = new MahasiswaAdapter(mahasiswas.getData());
-
 
                     // panggil file adapter
 
