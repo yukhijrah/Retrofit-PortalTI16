@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         // melakukan request terhadap getMahasiswa()
         service.getMahasiswa().enqueue(new Callback<DaftarMahasiswa>() {
+
             @Override
             public void onResponse(Call<DaftarMahasiswa> call, Response<DaftarMahasiswa> response) {
                 // mengecek request yang dilakukan, berhasil atau tidak
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     DaftarMahasiswa mahasiswas = response.body();
 
                     //get title
-                    Log.d("SyifaTazfa", mahasiswas.getTitle());
+                    Log.d("Syifa Tazfa", mahasiswas.getTitle());
 
                     // tampilkan daftar mahasiswa di recyclerview
                     MahasiswaAdapter adapter = new MahasiswaAdapter(mahasiswas.getData());
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<DaftarMahasiswa> call, Throwable t) {
+            public void onFailure(Call<DaftarMahasiswa> call, Throwable throwable) {
 
             }
         });
