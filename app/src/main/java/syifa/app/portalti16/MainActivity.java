@@ -3,15 +3,20 @@ package syifa.app.portalti16;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import syifa.app.portalti16.adapter.MahasiswaAdapter;
 import syifa.app.portalti16.entity.DaftarMahasiswa;
+import syifa.app.portalti16.entity.Mahasiswa;
 import syifa.app.portalti16.network.Network;
 import syifa.app.portalti16.network.Routes;
 
@@ -21,13 +26,30 @@ import syifa.app.portalti16.network.Routes;
 
 public class MainActivity extends AppCompatActivity {
 
+    //deklarasikan recyclerviewnya
+    private RecyclerView lstMahasiswa;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_main);
+
+        //casting recyclerviewnya dari id lst_mahasiswa yang ada di activity_main
+        lstMahasiswa = (RecyclerView) findViewById(R.id.lst_mahasiswa);
+
+        //set layout manager untuk lstMahasiswa
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        lstMahasiswa.setLayoutManager(linearLayoutManager);
+
+        requestDaftarMahasiswa();
     }
+
+    private DaftarMahasiswa mahasiswas;
+    // tampilkan daftar mahasiswa di recyclerview
+    MahasiswaAdapter adapter = new MahasiswaAdapter(mahasiswas.getData());
+
+    lstMahasiswa.setAdapter(adapter);
 
     private void requestDaftarMahasiswa(){
         // pertama memanggil request() dari retrofit yang sudah ada
@@ -55,9 +77,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            @Override
-            public void onFailure(Call<DaftarMahasiswa> call, Throwable throwable) {
+            private void onMahasiswaError() {
+                Toast.makeText(
+                        MainActivity.this,
+                        "Gagal. Silahkan periksa koneksi internet anda.",
+                        Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onFailure(Call<DaftarMahasiswa> call, Throwable t) {
+
+                //ketika data tidak berhasil di load
+                onMahasiswaError();
             }
         });
     }
