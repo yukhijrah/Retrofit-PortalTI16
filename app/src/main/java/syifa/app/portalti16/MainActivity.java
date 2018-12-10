@@ -51,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
     lstMahasiswa.setAdapter(adapter);
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        requestDaftarMahasiswa();
+    }
+
     private void requestDaftarMahasiswa(){
         // pertama memanggil request() dari retrofit yang sudah ada
         Routes service = Network.request().create(Routes.class);
