@@ -1,8 +1,8 @@
 package syifa.app.portalti16;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +41,14 @@ public class AddMahasiswaActivity extends AppCompatActivity {
             }
         });
     }
+
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        lstMahasiswa.setLayoutManager(linearLayoutManager);
+
+    requestDaftarMahasiswa();
+    //requestDaftarMahasiswa();
+
+
 
     private void addNewMahasiswa(String name, String nim) {
         Routes services = Network.request().create(Routes.class);

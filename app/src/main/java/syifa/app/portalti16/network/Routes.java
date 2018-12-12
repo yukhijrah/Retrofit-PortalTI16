@@ -16,12 +16,14 @@ public interface Routes {
 
     @GET("list.php")
 //    public void getMahasiswa;
+    @GET("dev/list_mahasiswa")
     Call<DaftarMahasiswa> getMahasiswa();
 
 //    untuk melakukan post data mahasiswa baru, jika di deskripsikan, berarti:
 //    https://ti16.herokuapp.com/add.php
 
     @POST("add.php")
+    @POST("dev/insert_mahasiswa")
     @FormUrlEncoded
     Call<Mahasiswa> postMahasiswa(
             @Field("name") String name,
