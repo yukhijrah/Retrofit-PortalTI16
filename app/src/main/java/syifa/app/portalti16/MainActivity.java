@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -57,6 +59,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //menampilkan menu di activity
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                //ketika icon refresh di klik, maka panggil ...
+                requestDaftarMahasiswa();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private DaftarMahasiswa mahasiswas;
     // tampilkan daftar mahasiswa di recyclerview
     MahasiswaAdapter adapter = new MahasiswaAdapter(mahasiswas.getData());
@@ -71,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestDaftarMahasiswa(){
         // pertama memanggil request() dari retrofit yang sudah ada
-        Routes service = Network.request().create(Routes.class);
+        Routes services = Network.request().create(Routes.class);
 
         // melakukan request terhadap getMahasiswa()
-        service.getMahasiswa().enqueue(new Callback<DaftarMahasiswa>() {
+        services.getMahasiswa().enqueue(new Callback<DaftarMahasiswa>() {
 
             @Override
             public void onResponse(Call<DaftarMahasiswa> call, Response<DaftarMahasiswa> response) {
