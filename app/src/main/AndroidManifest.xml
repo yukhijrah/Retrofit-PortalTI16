@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddMahasiswaActivity"></activity>
+        <activity android:name=".DetailMahasiswaActivity"></activity>
 
         <activity
-            android:name=".AddMahasiswaActivity"
+            android:name=".DetailMahasiswaActivity"
             android:parentActivityName=".MainActivity"/>
 
     </application>

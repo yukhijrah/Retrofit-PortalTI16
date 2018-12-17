@@ -6,6 +6,7 @@ package syifa.app.portalti16.entity;
 
 public class Mahasiswa {
 
+    private int id;
     private String name;
     private String nim;
 
@@ -22,4 +23,7 @@ public class Mahasiswa {
         return nim;
     }
 
+    public int getId() {
+        return id;
+    }
 }

@@ -2,7 +2,6 @@ package syifa.app.portalti16;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,18 +18,21 @@ import syifa.app.portalti16.network.Routes;
  * Created by USER on 09/12/2018.
  */
 
-public class AddMahasiswaActivity extends AppCompatActivity {
+public class DetailMahasiswaActivity extends AppCompatActivity {
 
     private EditText edtName, edtNim;
     private Button btnAdd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mahasiswa);
+
         //casting untuk semua view
         edtName = (EditText) findViewById(R.id.edt_name);
         edtNim = (EditText) findViewById(R.id.edt_nim);
         btnAdd = (Button) findViewById(R.id.btn_add);
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,11 +44,23 @@ public class AddMahasiswaActivity extends AppCompatActivity {
         });
     }
 
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        lstMahasiswa.setLayoutManager(linearLayoutManager);
+    @Override
+    public void onFailure(Call<Mahasiswa> call, Throwable t) {
+        Toast.makeText(DetailMahasiswaActivity.this, "Maaf, terjadi kesalahan", Toast.LENGTH_LONG).show();
+        onErrorAddMahasiswa();
+    }
 
-    requestDaftarMahasiswa();
-    //requestDaftarMahasiswa();
+    private void onErrorAddMahasiswa() {
+        Toast.makeText(DetailMahasiswaActivity.this,
+                "Maaf, terjadi kesalahan",
+                Toast.LENGTH_LONG).show();
+    }
+
+//    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        lstMahasiswa.setLayoutManager(linearLayoutManager);
+//
+//    requestDaftarMahasiswa();
+//    //requestDaftarMahasiswa();
 
 
 
@@ -58,25 +72,13 @@ public class AddMahasiswaActivity extends AppCompatActivity {
             public void onResponse(Call<Mahasiswa> call, Response<Mahasiswa> response) {
                 if (response.isSuccessful()) {
                     //ketika post nya berhasil, maka akan kembali ke mainActivity
-                    finish(); //ini akan destroy si activity AddMahasiswaActivity()
-                    finish(); //ini akan destroy si AddMahasiswaActivity()
+                    finish(); //ini akan destroy si activity DetailMahasiswaActivity()
+                    finish(); //ini akan destroy si DetailMahasiswaActivity()
                 } else {
-                    Toast.makeText(AddMahasiswaActivity.this, "Maaf, terjadi kesalahan", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DetailMahasiswaActivity.this, "Maaf, terjadi kesalahan", Toast.LENGTH_LONG).show();
                     onErrorAddMahasiswa();
                 }
             }
-
-            @Override
-            public void onFailure(Call<Mahasiswa> call, Throwable t) {
-                Toast.makeText(AddMahasiswaActivity.this, "Maaf, terjadi kesalahan", Toast.LENGTH_LONG).show();
-                onErrorAddMahasiswa();
-            }
         });
-    }
-
-    private void onErrorAddMahasiswa() {
-        Toast.makeText(AddMahasiswaActivity.this,
-                "Maaf, terjadi kesalahan",
-                Toast.LENGTH_LONG).show();
     }
 }

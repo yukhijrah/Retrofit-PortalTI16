@@ -1,10 +1,12 @@
 package syifa.app.portalti16;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AddMahasiswaActivity.class));
+                startActivity(new Intent(MainActivity.this, DetailMahasiswaActivity.class));
             }
         });
     }
@@ -91,9 +90,23 @@ public class MainActivity extends AppCompatActivity {
     private void requestDaftarMahasiswa(){
         // pertama memanggil request() dari retrofit yang sudah ada
         Routes services = Network.request().create(Routes.class);
+        final Routes services = Network.request().create(Routes.class);
 
         // melakukan request terhadap getMahasiswa()
         services.getMahasiswa().enqueue(new Callback<DaftarMahasiswa>() {
+
+            //tampilkan daftar mahasiswa di recyclerview
+            MahasiswaAdapter adapter = new MahasiswaAdapter(mahasiswas.getData());
+            //untuk handle button delete di item mahasiswa
+            //fungsinya untuk menghapus data yang ada di API
+                    adapter.setListener(new MahasiswaAdapter.MahasiswaListener() {
+                @Override
+                public void onDelete(int mhsId) {
+                    String id = String.valueOf(mhsId); //konversi int to string
+                    deleteMahasiswa(services, id);
+                }
+            });
+
 
             @Override
             public void onResponse(Call<DaftarMahasiswa> call, Response<DaftarMahasiswa> response) {
@@ -121,6 +134,37 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
 
+            private void deleteMahasiswa(final Routes services, final String mhsId) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle(R.string.app_name);
+                alert.setMessage("are you sure?");
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        services.deleteMahasiswa(mhsId).enqueue(new Callback<Mahasiswa>() {
+                            @Override
+                            public void onResponse(Call<Mahasiswa> call, Response<Mahasiswa> response) {
+                                if (response.isSuccessful()) {
+                                    requestDaftarMahasiswa();
+                                } else {
+                                    onMahasiswaError();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Mahasiswa> call, Throwable t) {
+                                onMahasiswaError();
+                            }
+                        });
+                    }
+                });
+                alert.show();
+            }
+
             @Override
             public void onFailure(Call<DaftarMahasiswa> call, Throwable t) {
 
@@ -129,4 +173,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

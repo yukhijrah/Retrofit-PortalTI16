@@ -18,11 +18,16 @@ import syifa.app.portalti16.holder.MahasiswaHolder;
 
 public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
 
-//    private List<Mahasiswa> mahasiswas;
-    private List<Mahasiswa> mahasiswas = new ArrayList<>();
+    private List<Mahasiswa> mahasiswas;
+    private MahasiswaListener listener;
+//    private List<Mahasiswa> mahasiswas = new ArrayList<>();
 
     public MahasiswaAdapter(List<Mahasiswa> mahasiswas) {
         this.mahasiswas = mahasiswas;
+    }
+
+    public void setListener(MahasiswaListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -32,13 +37,27 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
         return holder;
     }
 
+    @Override
+    public int getItemCount() {
+        return mahasiswas.size();
+    }
+    public interface MahasiswaListener {
+        void onDelete(int mhsId);
+    }
 
     @Override
-    public void onBindViewHolder(MahasiswaHolder holder, int position) {
+    public void onBindViewHolder(final MahasiswaHolder holder, final int position) {
 
         holder.txtname.setText(mahasiswas.get(position).getName());
         holder.txtnim.setText(mahasiswas.get(position).getNim());
 
+        //tambahkan fungsi delete
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onDelete(mahasiswas.get(position).getId());
+            }
+        });
     }
 
     @Override
