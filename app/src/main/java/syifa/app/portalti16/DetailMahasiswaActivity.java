@@ -13,6 +13,7 @@ import retrofit2.Response;
 import syifa.app.portalti16.entity.Mahasiswa;
 import syifa.app.portalti16.network.Network;
 import syifa.app.portalti16.network.Routes;
+import syifa.app.portalti16.utilitas.Consts;
 
 /**
  * Created by USER on 09/12/2018.
@@ -33,6 +34,33 @@ public class DetailMahasiswaActivity extends AppCompatActivity {
         edtNim = (EditText) findViewById(R.id.edt_nim);
         btnAdd = (Button) findViewById(R.id.btn_add);
 
+        String action = getIntent().getStringExtra(Consts.KEY_ACTION_DETAIL);
+        switch (action) {
+            case Consts.INTENT_ADD:
+                btnAdd.setText("TAMBAH MAHASISWA");
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = edtName.getText().toString();
+                        String nim = edtNim.getText().toString();
+                        addNewMahasiswa(name, nim);
+                    }
+                });
+                break;
+
+            case Consts.INTENT_EDIT:
+                Mahasiswa mahasiswa = (Mahasiswa) getIntent().getSerializableExtra("mahasiswa");
+                edtName.setText(mahasiswa.getName());
+                edtNim.setText(mahasiswa.getNim());
+                btnAdd.setText("UPDATE DATA");
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+            break;
+        }
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +70,7 @@ public class DetailMahasiswaActivity extends AppCompatActivity {
                 addNewMahasiswa(name, nim);
             }
         });
+
     }
 
     @Override
