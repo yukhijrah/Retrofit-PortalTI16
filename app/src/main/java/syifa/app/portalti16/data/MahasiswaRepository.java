@@ -30,6 +30,9 @@ public class MahasiswaRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
+                Mahasiswa mahasiswa = new mahasiswa();
+                mahasiswa.setName(name);
+                mahasiswa.setNim(nim);
                 mahasiswaDatabase.mahasiswaDao().iinsert(mahasiswa);
                 return null;
             }
