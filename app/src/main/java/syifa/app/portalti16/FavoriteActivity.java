@@ -25,6 +25,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private MahasiswaAdapter adapter;
     private MahasiswaRepository mhsRepository;
+    private List<Mahasiswa> mahasiswas;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class FavoriteActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... voids) {
                 List<Mahasiswa> Mahasiswas = mhsRepository.getMahasiwas();
-                if (mahasiswa.size() > 0) {
+                if (mahasiswas.size() > 0) {
                     adapter = new MahasiswaAdapter(mahasiswas);
                     lstFavorite.setAdapter(adapter);
                 } else {
