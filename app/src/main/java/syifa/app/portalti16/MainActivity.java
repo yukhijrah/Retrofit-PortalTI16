@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
+                startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+                break;
                 //ketika icon refresh di klik, maka panggil ...
                 requestDaftarMahasiswa();
                 break;

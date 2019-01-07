@@ -16,6 +16,7 @@ public class MahasiswaHolder extends RecyclerView.ViewHolder {
     public TextView txtname;
     public TextView txtnim;
     public Button btnDelete;
+    public Button btnFavorite;
 
 
 
@@ -24,5 +25,6 @@ public class MahasiswaHolder extends RecyclerView.ViewHolder {
         txtname = (TextView) itemView.findViewById(R.id.txt_name);
         txtnim = (TextView) itemView.findViewById(R.id.txt_nim);
         btnDelete = (Button) itemView.findViewById(R.id.btn_delete);
+        btnFavorite= (Button) itemView.findViewById(R.id.btn_favorite);
     }
 }
