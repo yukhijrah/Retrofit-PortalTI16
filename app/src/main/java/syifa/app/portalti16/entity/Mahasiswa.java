@@ -28,4 +28,12 @@ public class Mahasiswa implements Serializable {
         public int getId() {
             return id;
         }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setNim(String nim) {
+            this.nim = nim;
+    }
 }
