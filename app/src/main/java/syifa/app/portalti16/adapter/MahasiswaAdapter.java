@@ -23,7 +23,6 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
 
     private List<Mahasiswa> mahasiswas;
     private MahasiswaListener listener;
-//    private List<Mahasiswa> mahasiswas = new ArrayList<>();
 
     public MahasiswaAdapter(List<Mahasiswa> mahasiswas) {
         this.mahasiswas = mahasiswas;
@@ -35,36 +34,29 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
 
     @Override
     public MahasiswaHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mahasiswa, parent,false);
-        MahasiswaHolder holder = new MahasiswaHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mahasiswa, parent, false);
+        final MahasiswaHolder holder = new MahasiswaHolder(view);
 
-        @Override
-        public void onClick(view v) {
-            // definisikan position untuk getMahasiswaa
-            int adapterPosition = holder.getAdapterPosition();
-            Mahasiswa mahasiswa = mahasiswas.get(adapterPosition);
+        final Context context = holder.itemView.getContext();
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //definisikan position untuk getMahasiswa.
+                int adapterPosition = holder.getAdapterPosition();
+                Mahasiswa mahasiswa = mahasiswas.get(adapterPosition);
 
-            Intent detailIntent = new Intent(context, DetailMahasiswaActivity.class);
-            detailIntent.putExtra("mahasiswa", mahasiswa);
-            detailIntent.putExtra(Consts.KEY_ACTION_DETAIL, Consts.INTENT_EDIT);
-            context.startActivity(detailIntent);
-        }
+                Intent detailIntent = new Intent(context, DetailMahasiswaActivity.class);
+                detailIntent.putExtra("mahasiswa", mahasiswa);
+                detailIntent.putExtra(Consts.KEY_ACTION_DETAIL, Consts.INTENT_EDIT);
+                context.startActivity(detailIntent);
+            }
+        });
 
         return holder;
     }
 
     @Override
-    public int getItemCount() {
-        return mahasiswas.size();
-    }
-    public interface MahasiswaListener {
-        void onDelete(int mhsId);
-        void onFavorite(Mahasiswa mahasiswa);
-    }
-
-    @Override
-    public void onBindViewHolder(final MahasiswaHolder holder, final int position) {
-
+    public void onBindViewHolder(MahasiswaHolder holder, final int position) {
         holder.txtname.setText(mahasiswas.get(position).getName());
         holder.txtnim.setText(mahasiswas.get(position).getNim());
 
@@ -76,10 +68,10 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
             }
         });
 
-        // tambahkan fungsi Favorite
+        //fungsi favorite
         holder.btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 listener.onFavorite(mahasiswas.get(position));
             }
         });
@@ -89,4 +81,10 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
     public int getItemCount() {
         return mahasiswas.size();
     }
+
+    public interface MahasiswaListener {
+        void onDelete(int mhsId);
+        void onFavorite(Mahasiswa mahasiswa);
+    }
+
 }

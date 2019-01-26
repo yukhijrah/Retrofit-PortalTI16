@@ -25,12 +25,11 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private MahasiswaAdapter adapter;
     private MahasiswaRepository mhsRepository;
-    private List<Mahasiswa> mahasiswas;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(android.R.layout.activity_favorite);
+        setContentView(R.layout.activity_favorite);
 
         lstFavorite = (RecyclerView) findViewById(R.id.lst_favorite);
         lstFavorite.setLayoutManager(new LinearLayoutManager(this));
@@ -40,15 +39,18 @@ public class FavoriteActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                List<Mahasiswa> Mahasiswas = mhsRepository.getMahasiwas();
+                List<Mahasiswa> mahasiswas = mhsRepository.getMahasiswas();
+
                 if (mahasiswas.size() > 0) {
                     adapter = new MahasiswaAdapter(mahasiswas);
                     lstFavorite.setAdapter(adapter);
                 } else {
-                    Toast.makeText(FavoriteActivity.this, "Tidak ada item favorite.", Toast.LENGTH_LONG).show();
+                     Toast.makeText(FavoriteActivity.this,
+                            "Tidak ada item favorite.",
+                            Toast.LENGTH_LONG).show();
                 }
                 return null;
             }
-        }
+        }.execute();
     }
 }

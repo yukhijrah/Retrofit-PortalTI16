@@ -15,31 +15,31 @@ public class MahasiswaRepository {
 
     // untuk mengelola data kita di lokal
 
-    private final static String DB_NAME = "datalokak";
+    private final static String DB_NAME = "datalokal";
     private MahasiswaDatabase mahasiswaDatabase;
 
     public MahasiswaRepository(Context context) {
         mahasiswaDatabase = Room.databaseBuilder(
                 context,
-                MahasiswaDatabase.class
+                MahasiswaDatabase.class,
                 DB_NAME
         ).build();
     }
 
-    public static void insertMahasiswa(final Mahasiswa mahasiswa) {
+    public void insertMahasiswa(final String name, final String nim) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Mahasiswa mahasiswa = new mahasiswa();
+                Mahasiswa mahasiswa = new Mahasiswa();
                 mahasiswa.setName(name);
                 mahasiswa.setNim(nim);
-                mahasiswaDatabase.mahasiswaDao().iinsert(mahasiswa);
+                mahasiswaDatabase.mahasiswaDao().insert(mahasiswa);
                 return null;
             }
         }.execute();
     }
-    public List<Mahasiswa>getMahasiwas() {
+
+    public List<Mahasiswa> getMahasiswas() {
         return mahasiswaDatabase.mahasiswaDao().getMahasiswa();
     }
-
 }

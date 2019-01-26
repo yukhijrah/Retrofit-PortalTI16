@@ -22,8 +22,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DetailMahasiswaActivity"></activity>
-
         <activity
             android:name=".DetailMahasiswaActivity"
             android:parentActivityName=".MainActivity"/>
